@@ -158,6 +158,7 @@ public class RobotTeleopPOV_Linear extends LinearOpMode {
         reach.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         reach.setPositionPIDFCoefficients(1);
         elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
         // run until the end of the match (driver presses STOP)
@@ -193,12 +194,12 @@ if(gamepad1.b){
     elevator.setPower(1);
 }
 ////////////////////////////////////////////
-    if(elevator.getCurrentPosition()<-1000 && elevator.getTargetPosition()<-1000){
+    if(elevator.getCurrentPosition()<-1000 && elevator.getTargetPosition() == -1850){
     cone.setPosition(CONE_OPEN);
     ///////////////////back
-    if(elevator.getCurrentPosition()<-1450 && elevator.getTargetPosition()<-1000)
+    if(elevator.getCurrentPosition()<-1450 && elevator.getTargetPosition() == -1850)
          cone.setPosition(CONE_FOLDED);
-    if(elevator.getCurrentPosition()<-1800 && elevator.getTargetPosition()<-1000){
+    if(elevator.getCurrentPosition()<-1800 && elevator.getTargetPosition() == -1850){
          cone.getController().pwmDisable();
          elevator.setTargetPosition(0);
     }
@@ -212,9 +213,16 @@ if(gamepad1.b){
         elevator.setPower(1);
     }
     if(elevator.getCurrentPosition()<-1500 && elevator.getTargetPosition() == -1539){
-        arm.setTargetPosition(-100);
+        arm.setTargetPosition(-751);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         arm.setPower(0.2);
+    }
+    if(arm.getCurrentPosition()<-550 && arm.getCurrentPosition()>-751 && arm.getTargetPosition() == -751)
+        cone.setPosition(0.9);
+    if(arm.getCurrentPosition()<-730 && arm.getTargetPosition() == -751)
+    {
+        cone.setPosition(0.3);
+        arm.setTargetPosition(0);
     }
 
             drive =  gamepad1.left_stick_y;
