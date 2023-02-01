@@ -176,46 +176,11 @@ if(gamepad1.a && !gamePad_a)
 }
 if(gamePad_a)
 {
-    claw.setPosition(0.57);
-    claw2.setPosition(0.5);
-    intake1.setPosition(1);
-    intake2.setPosition(0);   //intake down
-    wrist.setPosition(0.75);
-    sleep(120);
-    openReach(); //motor will be stopped after this call.
-    reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    while (reach.getCurrentPosition()>-580){
-        reach.setPower(-1.0);
-        telemetry.addData("reach", reach.getCurrentPosition());
-        telemetry.update();
-        if(reach.getCurrentPosition()<-550)//-480
-        {
-           claw.setPosition(1);//grab cone
-           claw2.setPosition(0);
-        }
-
-    }
-    reach.setTargetPosition(-580);
-    reach.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    reach.setPower(1);
-//////////////////////////////////////////////////////////////////////////
-    sleep(250);//wait for cone capture.
-    wrist.setPosition(0.92);
-    intake1.setPosition(0.5);
-    intake2.setPosition(0.5);
-    reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    closerReach();
-
-    sleep(1000);//1000
-    claw.setPosition(0);//open to drop cone
-    claw2.setPosition(1);
-    sleep(300);//300
-    wrist.setPosition(0.73);
-    claw.setPosition(0.5); //stop opening
-    claw2.setPosition(0.5);
-    sleep(50);
-    gamePad_a = false;
-
+//    new Thread(){
+//     public void run(){
+         takeCone();
+//     }
+//    }.start();
 }
 
 if(gamepad1.b){
@@ -228,17 +193,30 @@ if(gamepad1.b){
     elevator.setPower(1);
 }
 ////////////////////////////////////////////
-    if(elevator.getCurrentPosition()<-1200){
+    if(elevator.getCurrentPosition()<-1000 && elevator.getTargetPosition()<-1000){
     cone.setPosition(CONE_OPEN);
     ///////////////////back
-    if(elevator.getCurrentPosition()<-1450)
-    cone.setPosition(CONE_FOLDED);
-    if(elevator.getCurrentPosition()<-1750){
-    cone.getController().pwmDisable();
-    elevator.setTargetPosition(0);
+    if(elevator.getCurrentPosition()<-1450 && elevator.getTargetPosition()<-1000)
+         cone.setPosition(CONE_FOLDED);
+    if(elevator.getCurrentPosition()<-1800 && elevator.getTargetPosition()<-1000){
+         cone.getController().pwmDisable();
+         elevator.setTargetPosition(0);
     }
     }
     ///////////////////////////////////////////
+
+    if(gamepad1.y){
+        cone.setPosition(0.4);
+        elevator.setTargetPosition(-1539);//elevator position for arm stretch.
+        elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        elevator.setPower(1);
+    }
+    if(elevator.getCurrentPosition()<-1500 && elevator.getTargetPosition() == -1539){
+        arm.setTargetPosition(-100);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setPower(0.2);
+    }
+
             drive =  gamepad1.left_stick_y;
             turn  =  -gamepad1.right_stick_x;
 
@@ -263,7 +241,7 @@ if(gamepad1.b){
               // Send telemetry message to signify robot running;
               //telemetry.addData("elevator1",  "Offset = "+ elevator1.getCurrentPosition());
               telemetry.addData("elevator",  "Offset = "+ elevator.getCurrentPosition());
-
+              telemetry.addData("Arm(Telescope)", arm.getCurrentPosition());
 
               telemetry.addData("reach", "Offset = "+reach.getCurrentPosition());
 
@@ -303,5 +281,50 @@ public void openReach(){
     stopper.setPosition(1);
     sleep(250);
     reach.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+}
+
+public void takeCone(){
+    claw.setPosition(0.57);
+    claw2.setPosition(0.5);
+    intake1.setPosition(1);
+    intake2.setPosition(0);   //intake down
+    wrist.setPosition(0.75);
+    sleep(120);
+    openReach(); //motor will be stopped after this call.
+    reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    grabConeTimer.reset();
+    while (reach.getCurrentPosition()>-580){
+        reach.setPower(-1.0);
+        telemetry.addData("reach", reach.getCurrentPosition());
+        telemetry.update();
+        if(reach.getCurrentPosition()<-550)//-480
+        {
+            claw.setPosition(1);//grab cone
+            claw2.setPosition(0);
+        }
+        if(grabConeTimer.seconds()>2)
+            break;
+    }
+    reach.setTargetPosition(-580);
+    reach.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    reach.setPower(1);
+//////////////////////////////////////////////////////////////////////////
+    sleep(250);//wait for cone capture.
+    wrist.setPosition(0.92);
+    intake1.setPosition(0.5);
+    intake2.setPosition(0.5);
+    reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    closerReach();
+
+    sleep(1000);//1000
+    claw.setPosition(0);//open to drop cone
+    claw2.setPosition(1);
+    sleep(300);//300
+    wrist.setPosition(0.73);
+    claw.setPosition(0.5); //stop opening
+    claw2.setPosition(0.5);
+    sleep(50);
+    gamePad_a = false;
+
 }
 }
