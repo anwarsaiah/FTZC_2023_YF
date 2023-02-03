@@ -58,27 +58,8 @@ import org.firstinspires.ftc.teamcode.R;
 //@Disabled
 public class TestTeleop extends LinearOpMode {
     /* Declare OpMode members. */
-    public DcMotor  frontLeft = null;
-    public DcMotor  frontRight = null;
-    public DcMotor  backLeft = null;
-    public DcMotor  backRight = null;
-    public DcMotor  elevator1     = null;
-    public DcMotorEx  elevator2    = null;
-    public Servo    intakeServo   = null;
-    public Servo    elevatorServo   = null;
-    public Servo    cone   = null;
-    public Servo    elevatorServo2   = null;
-    public DcMotorEx dish = null;
-    public DcMotorEx intake = null;
-    public TouchSensor start = null;
-    public TouchSensor end = null;
-    double clawOffset = 0;
 
-    public static final double MID_SERVO   =  0.5 ;
-    public static final double CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
-    boolean gamePad_a = false;
+   RobotHardware robot = new RobotHardware(this);
 
     @Override
     public void runOpMode() {
@@ -90,73 +71,22 @@ public class TestTeleop extends LinearOpMode {
 
         // Define and Initialize Motors
 
-        frontLeft = hardwareMap.get(DcMotor.class, "frontleft");
-        frontRight = hardwareMap.get(DcMotor.class, "frontright");
-        backLeft = hardwareMap.get(DcMotor.class, "backleft");
-        backRight = hardwareMap.get(DcMotor.class, "backright");
-        elevator1 = hardwareMap.get(DcMotor.class, "elevator1");
-        elevator2 = hardwareMap.get(DcMotorEx.class, "elevator2");
-        intakeServo = hardwareMap.get(Servo.class, "intakeservo");
-        elevatorServo = hardwareMap.get(Servo.class, "elevatorservo");
-        cone = hardwareMap.get(Servo.class, "cone");
-        elevatorServo2 = hardwareMap.get(Servo.class, "elevatorservo2");
-        dish = hardwareMap.get(DcMotorEx.class, "dish");
-        intake = hardwareMap.get(DcMotorEx.class, "intake");
-        start = hardwareMap.get(TouchSensor.class, "start");
-        end = hardwareMap.get(TouchSensor.class, "end");
-
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
-
-        boolean endReached, firstPass;
-        long snapShot =0;
-
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData(">", "Robot Ready.  Press Play.");
-        telemetry.addData("cone position", cone.getPosition());
-        telemetry.addData("elevator2",  "Offset = "+ elevator2.getCurrentPosition());
-        telemetry.update();
-        //////
-
-        elevator2.setDirection(DcMotor.Direction.REVERSE);  //this has no effect what so ever!!
-        elevator1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        dish.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        elevator2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        elevator2.setTargetPosition(-1650);
-        elevator2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        elevator2.setTargetPositionTolerance(5);
-        elevator2.setPositionPIDFCoefficients(3);
-
-        endReached = false;
-        firstPass = true;
-        // Wait for the game to start (driver presses PLAY)
-        elevatorServo.setPosition(0);
-        dish.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       // cone.setPosition(0.9);
+       robot.init();
         waitForStart();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            if(gamepad1.a)
-            {elevator2.setPower(0.5);
-            elevator1.setPower(0.5);}
-            else{elevator1.setPower(0);
-            elevator2.setPower(0);}
-            if(gamepad1.b)
-            {
-                dish.setPower(-0.5);
 
+
+            if(gamepad1.a){
+                robot.stopper.setPosition(1);
             }
-            else
-                dish.setPower(0);
+            if(gamepad1.b){
+                robot.stopper.setPosition(0);
+            }
 
+            telemetry.addData("cone position",  "Offset = "+ robot.cone.getPosition());
 
-
-            telemetry.addData("cone position",  "Offset = "+ cone.getPosition());
-            telemetry.addData("elevatorServo position",  "Offset = "+ elevatorServo.getPosition());
 
 //            telemetry.addData("start Pressed", start.isPressed());
 //            telemetry.addData("end Pressed", end.isPressed());

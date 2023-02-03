@@ -29,20 +29,13 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.motors.RevRobotics20HdHexMotor;
 import com.qualcomm.hardware.rev.RevTouchSensor;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-import org.firstinspires.ftc.teamcode.R;
 
 /**
  * This particular OpMode executes a POV Game style Teleop for a direct drive robot
@@ -60,84 +53,84 @@ import org.firstinspires.ftc.teamcode.R;
 //@Disabled
 public class RobotTeleopPOV_Linear extends LinearOpMode {
     /* Declare OpMode members. */
-    public DcMotor  frontLeft = null;
-    public DcMotor  frontRight = null;
-    public DcMotor  backLeft = null;
-    public DcMotor  backRight = null;
+//    public DcMotor  frontLeft = null;
+//    public DcMotor  frontRight = null;
+//    public DcMotor  backLeft = null;
+//    public DcMotor  backRight = null;
+//
+//    public DcMotor  elevator     = null;
+//    public DcMotorEx  arm    = null;
+//    public DcMotorEx reach = null;
+//    public DcMotorEx intake = null;
+//
+//    public Servo    wrist   = null;
+//    public Servo    claw   = null;
+//    public Servo    claw2   = null;
+//    public Servo    cone   = null;
+//    public Servo   intake1 = null;
+//    public Servo   intake2 = null;
+//    public Servo   stopper = null;
+//
+//    public RevTouchSensor touch = null;
 
-    public DcMotor  elevator     = null;
-    public DcMotorEx  arm    = null;
-    public DcMotorEx reach = null;
-    public DcMotorEx intake = null;
 
-    public Servo    wrist   = null;
-    public Servo    claw   = null;
-    public Servo    claw2   = null;
-    public Servo    cone   = null;
-    public Servo   intake1 = null;
-    public Servo   intake2 = null;
-    public Servo   stopper = null;
-
-    public RevTouchSensor touch = null;
+    RobotHardware robot = new RobotHardware(this);
 
 
-    public static final double MID_SERVO   =  0.5 ;
-    public static final double CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
     boolean gamePad_a = false;
     public boolean liftingElevator;
     ElapsedTime elapsedTime = new ElapsedTime();
     ElapsedTime scoreTime = new ElapsedTime();
     ElapsedTime grabConeTimer = new ElapsedTime();
     ElapsedTime gamePad_aTimer = new ElapsedTime();
-    boolean endReached, startReached, firstPass, intakeUP, intakeCone = false;
+    ElapsedTime yPressedTimeout = new ElapsedTime();
+    ElapsedTime bPressedTimeout = new ElapsedTime();
+    ElapsedTime squarePressedTimeout2 = new ElapsedTime(), yPressedTimeout2 = new ElapsedTime();
+    boolean endReached, startReached, firstPass, intakeUP, intakeCone = false, armDistanceStretch = false, armLongDistanceStretch = false;
     public static final double CONE_OPEN = 0.9;
     public static final double CONE_FOLDED = 0.1;
 
 
     @Override
     public void runOpMode() {
-        double left;
-        double right;
-        double drive;
-        double turn;
-        double max;
-
-        // Define and Initialize Motors
-
-        frontLeft = hardwareMap.get(DcMotor.class, "frontleft");
-        frontRight = hardwareMap.get(DcMotor.class, "frontright");
-        backLeft = hardwareMap.get(DcMotor.class, "backleft");
-        backRight = hardwareMap.get(DcMotor.class, "backright");
-        elevator = hardwareMap.get(DcMotor.class, "elevator");
-        arm = hardwareMap.get(DcMotorEx.class, "arm");
-        reach = hardwareMap.get(DcMotorEx.class, "reach");
-        stopper = hardwareMap.get(Servo.class, "stopper");
-
-
-
-        wrist = hardwareMap.get(Servo.class, "wrist");
-        claw = hardwareMap.get(Servo.class, "claw");
-        cone = hardwareMap.get(Servo.class, "cone");
-        claw2 = hardwareMap.get(Servo.class, "claw2");
-        intake1 = hardwareMap.get(Servo.class,"intake1");
-        intake2 = hardwareMap.get(Servo.class,"intake2");
-
-
-        touch = hardwareMap.get(RevTouchSensor.class,"touch");
-
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
-
-
+//        double left;
+//        double right;
+//        double drive;
+//        double turn;
+//        double max;
+//
+//        // Define and Initialize Motors
+//
+//        frontLeft = hardwareMap.get(DcMotor.class, "frontleft");
+//        frontRight = hardwareMap.get(DcMotor.class, "frontright");
+//        backLeft = hardwareMap.get(DcMotor.class, "backleft");
+//        backRight = hardwareMap.get(DcMotor.class, "backright");
+//        elevator = hardwareMap.get(DcMotor.class, "elevator");
+//        arm = hardwareMap.get(DcMotorEx.class, "arm");
+//        reach = hardwareMap.get(DcMotorEx.class, "reach");
+//        stopper = hardwareMap.get(Servo.class, "stopper");
+//
+//
+//
+//        wrist = hardwareMap.get(Servo.class, "wrist");
+//        claw = hardwareMap.get(Servo.class, "claw");
+//        cone = hardwareMap.get(Servo.class, "cone");
+//        claw2 = hardwareMap.get(Servo.class, "claw2");
+//        intake1 = hardwareMap.get(Servo.class,"intake1");
+//        intake2 = hardwareMap.get(Servo.class,"intake2");
+//
+//
+//        touch = hardwareMap.get(RevTouchSensor.class,"touch");
+//
+//        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+//        backLeft.setDirection(DcMotor.Direction.REVERSE);
+//        frontRight.setDirection(DcMotor.Direction.FORWARD);
+//        backRight.setDirection(DcMotor.Direction.FORWARD);
 
         // Send telemetry message to signify robot waiting;
-
+        robot.init();
         telemetry.addData(">", "Robot Ready.  Press Play.");
-        telemetry.addData("cone position", cone.getPosition());
+        telemetry.addData("cone position", robot.cone.getPosition());
         telemetry.update();
         //////
         endReached = false;
@@ -145,117 +138,106 @@ public class RobotTeleopPOV_Linear extends LinearOpMode {
         firstPass = true;
         liftingElevator = false;
         intakeUP=false;
-        telemetry.addData("reach:", reach.getCurrentPosition());
+        telemetry.addData("reach:", robot.reach.getCurrentPosition());
         telemetry.update();
-        cone.setPosition(0.1);
+        //cone.setPosition(0.1);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        elapsedTime.reset();
-        scoreTime.reset();
 
+        elapsedTime.reset();
+        yPressedTimeout.reset();
+        scoreTime.reset();
         //intake1.setPosition(0.5);
         //intake2.setPosition(0.5);
-        reach.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        reach.setPositionPIDFCoefficients(1);
-        elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+        robot.reach.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.reach.setPositionPIDFCoefficients(1);
+        robot.elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // run until the end of the match (driver presses STOP)
 while (opModeIsActive()) {
-closerReach(); //Motor in run without encoder mode and idle, after call.
-    if(gamepad1.x){
-        reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        reach.setPower(-0.6);
-    }
-
-if(gamepad1.a && !gamePad_a)
-{
-    gamePad_a = true;
-    grabConeTimer.reset();
-    gamePad_aTimer.reset();
-}
-if(gamePad_a)
-{
-//    new Thread(){
-//     public void run(){
-         takeCone();
-//     }
-//    }.start();
-}
-
-if(gamepad1.b){
-    claw.setPosition(1);//close grip
-    claw2.setPosition(0);
-//    elevator.setPower(-1.0);
-//    sleep(800);
-    elevator.setTargetPosition(-1850);
-    elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    elevator.setPower(1);
-}
-////////////////////////////////////////////
-    if(elevator.getCurrentPosition()<-1000 && elevator.getTargetPosition() == -1850){
-    cone.setPosition(CONE_OPEN);
-    ///////////////////back
-    if(elevator.getCurrentPosition()<-1450 && elevator.getTargetPosition() == -1850)
-         cone.setPosition(CONE_FOLDED);
-    if(elevator.getCurrentPosition()<-1800 && elevator.getTargetPosition() == -1850){
-         cone.getController().pwmDisable();
-         elevator.setTargetPosition(0);
-    }
-    }
-    ///////////////////////////////////////////
-
-    if(gamepad1.y){
-        cone.setPosition(0.4);
-        elevator.setTargetPosition(-1539);//elevator position for arm stretch.
-        elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        elevator.setPower(1);
-    }
-    if(elevator.getCurrentPosition()<-1500 && elevator.getTargetPosition() == -1539){
-        arm.setTargetPosition(-751);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        arm.setPower(0.2);
-    }
-    if(arm.getCurrentPosition()<-550 && arm.getCurrentPosition()>-751 && arm.getTargetPosition() == -751)
-        cone.setPosition(0.9);
-    if(arm.getCurrentPosition()<-730 && arm.getTargetPosition() == -751)
+    robot.driveMecanum();
+    distances();
+    closerReach(); //Motor in run without encoder mode and idle, after call.
+    if(gamepad1.a && !gamePad_a)
     {
-        cone.setPosition(0.3);
-        arm.setTargetPosition(0);
+        gamePad_a = true;
+        grabConeTimer.reset();
+        gamePad_aTimer.reset();
     }
+    if(gamePad_a)
+    {
+             takeCone();
+    }
+    //Distance from Bar!
 
-            drive =  gamepad1.left_stick_y;
-            turn  =  -gamepad1.right_stick_x;
+    if(gamepad1.b && bPressedTimeout.seconds()>1){
+        robot.claw.setPosition(1);//close grip
+        robot.claw2.setPosition(0);
+    //    elevator.setPower(-1.0);
+    //    sleep(800);
+        robot.elevator.setTargetPosition(-1850);
+        robot.elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.elevator.setPower(1);
+        bPressedTimeout.reset();
+    }
+    ////////////////////////////////////////////
+        if(robot.elevator.getCurrentPosition()<-1000 && robot.elevator.getTargetPosition() == -1850){
+        robot.cone.setPosition(CONE_OPEN);
+        ///////////////////back
+        if(robot.elevator.getCurrentPosition()<-1450 && robot.elevator.getTargetPosition() == -1850)
+             robot.cone.setPosition(CONE_FOLDED);
+        if(robot.elevator.getCurrentPosition()<-1800 && robot.elevator.getTargetPosition() == -1850){
+             robot.cone.getController().pwmDisable();
+             robot.elevator.setTargetPosition(0);
+        }
+        }
+        ///////////////////////////////////////////
 
-            // Combine drive and turn for blended motion.
-            left  = drive + turn;
-            right = drive - turn;
+        if(gamepad1.y && yPressedTimeout.seconds()>1.2){
+            robot.cone.setPosition(0.49);
+            robot.claw.setPosition(1);//close grip
+            robot.claw2.setPosition(0);
+            robot.elevator.setTargetPosition(-1539);//elevator position for arm stretch.
+            robot.elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.elevator.setPower(1);
+            yPressedTimeout.reset();
+        }
+        if(robot.elevator.getCurrentPosition()<-1400 && robot.elevator.getTargetPosition() == -1539 && yPressedTimeout.seconds()<2){
+            robot.arm.setTargetPosition(-751);
+            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.arm.setPower(0.8);
+        }
+        if(robot.arm.getCurrentPosition()<-150 && robot.arm.getCurrentPosition()>-730 && robot.arm.getTargetPosition() == -751)
+            robot.cone.setPosition(0.85);
+       else if(robot.arm.getCurrentPosition()<-730 && robot.arm.getTargetPosition() == -751)
+        {
+            robot.cone.setPosition(0.3);
+            robot.arm.setTargetPosition(0);
+        }
+       if(robot.elevator.getTargetPosition() == -1539 && robot.arm.getTargetPosition() == 0 && robot.arm.getCurrentPosition()>-60 && yPressedTimeout.seconds()>1.5)
+       {
+           robot.claw.setPosition(0.57);
+           robot.claw2.setPosition(0.5);
+           robot.elevator.setTargetPosition(0);
+           robot.cone.getController().pwmDisable();
+           if(robot.elevator.getCurrentPosition()>-10)
+           {
+               robot.elevator.setPower(0);
+               robot.arm.setPower(0);
+               yPressedTimeout.reset();
+           }
+       }
 
-            // Normalize the values so neither exceed +/- 1.0
-            max = Math.max(Math.abs(left), Math.abs(right));
-            if (max > 1.0)
-            {
-                left /= max;
-                right /= max;
-            }
-
-            // Output the safe vales to the motor drives.
-            frontLeft.setPower(left);
-            backLeft.setPower(left);
-            frontRight.setPower(right);
-            backRight.setPower(right);
 
               // Send telemetry message to signify robot running;
-              //telemetry.addData("elevator1",  "Offset = "+ elevator1.getCurrentPosition());
-              telemetry.addData("elevator",  "Offset = "+ elevator.getCurrentPosition());
-              telemetry.addData("Arm(Telescope)", arm.getCurrentPosition());
+              telemetry.addData("left stick gamepad1 <---  --->", gamepad1.left_stick_x);
+              telemetry.addData("elevator",  "Offset = "+ robot.elevator.getCurrentPosition());
+              telemetry.addData("Arm(Telescope)", robot.arm.getCurrentPosition());
 
-              telemetry.addData("reach", "Offset = "+reach.getCurrentPosition());
+              telemetry.addData("reach", "Offset = "+robot.reach.getCurrentPosition());
 
-              telemetry.addData("arm", "Offset = "+arm.getCurrentPosition());
-//            telemetry.addData("left",  "%.2f", left);
-//            telemetry.addData("right", "%.2f", right);
+              telemetry.addData("arm", "Offset = "+robot.arm.getCurrentPosition());
               telemetry.update();
 
             // Pace this loop so jaw action is reasonable speed.
@@ -263,76 +245,158 @@ if(gamepad1.b){
         }
     }
 
-   public  void  grabCone(){
-        if(grabConeTimer.seconds()<0.35)
-            reach.setPower(-0.7);
-        else reach.setPower(0);
-   }
 
-public void closerReach(){
-
-
-    if(!touch.isPressed())
+public void closerReach()
+{
+    if(!robot.touch.isPressed())
     {
-        reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        reach.setPower(1.0);
+        robot.reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.reach.setPower(1.0);
     }
     else{
-        stopper.setPosition(0);//close hook!
+        robot.stopper.setPosition(0);//close hook!
         sleep(250);
-        reach.setPower(0);
+        robot.reach.setPower(0);
     }
 }
 public void openReach(){
-    reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    reach.setPower(1.0);
-    stopper.setPosition(1);
+    robot.reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    robot.reach.setPower(1.0);
+    robot.stopper.setPosition(1);
     sleep(250);
-    reach.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    robot.reach.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 }
 
 public void takeCone(){
-    claw.setPosition(0.57);
-    claw2.setPosition(0.5);
-    intake1.setPosition(1);
-    intake2.setPosition(0);   //intake down
-    wrist.setPosition(0.75);
+    robot.claw.setPosition(0.57);
+    robot.claw2.setPosition(0.5);
+    robot.intake1.setPosition(1);
+    robot.intake2.setPosition(0);   //intake down
+    robot.wrist.setPosition(0.75);
     sleep(120);
     openReach(); //motor will be stopped after this call.
-    reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    robot.reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     grabConeTimer.reset();
-    while (reach.getCurrentPosition()>-580){
-        reach.setPower(-1.0);
-        telemetry.addData("reach", reach.getCurrentPosition());
+    while (robot.reach.getCurrentPosition()>-738){
+        robot.reach.setPower(-1.0);
+        telemetry.addData("reach", robot.reach.getCurrentPosition());
         telemetry.update();
-        if(reach.getCurrentPosition()<-550)//-480
+        if(robot.reach.getCurrentPosition()<-650)//-550
         {
-            claw.setPosition(1);//grab cone
-            claw2.setPosition(0);
+            robot.claw.setPosition(1);//grab cone
+            robot.claw2.setPosition(0);
         }
         if(grabConeTimer.seconds()>2)
             break;
     }
-    reach.setTargetPosition(-580);
-    reach.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    reach.setPower(1);
+    robot.reach.setTargetPosition(-740);//-580
+    robot.reach.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    robot.reach.setPower(1);
 //////////////////////////////////////////////////////////////////////////
     sleep(250);//wait for cone capture.
-    wrist.setPosition(0.92);
-    intake1.setPosition(0.5);
-    intake2.setPosition(0.5);
-    reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    robot.wrist.setPosition(0.92);
+    robot.intake1.setPosition(0.5);
+    robot.intake2.setPosition(0.5);
+    robot.reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     closerReach();
 
     sleep(1000);//1000
-    claw.setPosition(0);//open to drop cone
-    claw2.setPosition(1);
+    robot.claw.setPosition(0);//open to drop cone
+    robot.claw2.setPosition(1);
     sleep(300);//300
-    wrist.setPosition(0.73);
-    claw.setPosition(0.5); //stop opening
-    claw2.setPosition(0.5);
+    robot.wrist.setPosition(0.73);
+    robot.claw.setPosition(0.5); //stop opening
+    robot.claw2.setPosition(0.5);
     sleep(50);
     gamePad_a = false;
 
 }
+    /*public void driveMecanum(){
+        ///////drive wheels..Mecanum
+        double max;
+
+        // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+        double axial   = -gamepad2.left_stick_y;  // Note: pushing stick forward gives negative value
+        double lateral =  gamepad2.left_stick_x;
+        double yaw     =  gamepad2.right_stick_x;
+
+        // Combine the joystick requests for each axis-motion to determine each wheel's power.
+        // Set up a variable for each drive wheel to save the power level for telemetry.
+        double leftFrontPower  = axial + lateral + yaw;
+        double rightFrontPower = axial - lateral - yaw;
+        double leftBackPower   = axial - lateral + yaw;
+        double rightBackPower  = axial + lateral - yaw;
+
+        // Normalize the values so no wheel power exceeds 100%
+        // This ensures that the robot maintains the desired motion.
+        max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        max = Math.max(max, Math.abs(leftBackPower));
+        max = Math.max(max, Math.abs(rightBackPower));
+
+        if (max > 1.0) {
+            leftFrontPower  /= max;
+            rightFrontPower /= max;
+            leftBackPower   /= max;
+            rightBackPower  /= max;
+        }
+
+        // Send calculated power to wheels
+
+        frontLeft.setPower(rightFrontPower);
+        backLeft.setPower(leftBackPower);
+        backRight.setPower(rightBackPower);
+        frontLeft.setPower(leftFrontPower);
+        telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+        telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+    }*/
+    /////////////distances()/////////////////////////////////
+    public void distances(){
+
+        //////    Square    ////////
+        if(gamepad2.square && squarePressedTimeout2.seconds()>0.75){
+            if(armDistanceStretch)
+            {
+                robot.arm.setTargetPosition(0);
+                robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.arm.setPower(0.7);
+            }
+            armDistanceStretch = !armDistanceStretch;
+            squarePressedTimeout2.reset();
+        }
+        if(armDistanceStretch){
+            robot.cone.setPosition(0.4);
+            robot.arm.setTargetPosition(-95);
+            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.arm.setPower(0.7);
+        }
+        if(!armDistanceStretch && squarePressedTimeout2.seconds()<2)
+        {
+            robot.cone.getController().pwmDisable();
+        }
+
+        //////    Y    ////////
+
+        if(gamepad2.y && yPressedTimeout2.seconds()>0.75){
+            if(armLongDistanceStretch)
+            {
+                robot.arm.setTargetPosition(0);
+                robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.arm.setPower(0.7);
+            }
+            armLongDistanceStretch = !armLongDistanceStretch;
+            yPressedTimeout2.reset();
+        }
+        if(armLongDistanceStretch){
+            robot.cone.setPosition(0.4);
+            sleep(300);
+            robot.arm.setTargetPosition(-180);
+            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.arm.setPower(0.7);
+        }
+        if(!armLongDistanceStretch && yPressedTimeout2.seconds()<2)
+        {
+            robot.cone.getController().pwmDisable();
+        }
+    }
+    ////////////////////////////////////////////////////////////////////////////////
 }
