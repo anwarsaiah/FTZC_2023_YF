@@ -157,29 +157,12 @@ public class TestReach extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            stopper.setPosition(1);
-            if(gamepad1.x){
-                reach.setTargetPosition(-740);
-                reach.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                reach.setPower(1.0);
-                telemetry.addData("X pressed",0);
-                telemetry.update();
-            }
-            if(gamepad1.y){
-                reach.setTargetPosition(0);
-                reach.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                reach.setPower(1.0);
-            }
-            if(gamepad1.a){
-                reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                reach.setPower(0.5);
-            }
-            if(gamepad1.b){
-                reach.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                reach.setPower(-0.5);
-            }
+
             // Send telemetry message to signify robot running;
-            telemetry.addData("reach", "Offset = "+reach.getCurrentPosition());
+            telemetry.addData("front left", frontLeft.getCurrentPosition());
+            telemetry.addData("front right", frontRight.getCurrentPosition());
+            telemetry.addData("back left", backLeft.getCurrentPosition());
+            telemetry.addData("back right", backRight.getCurrentPosition());
             telemetry.update();
         }
     }

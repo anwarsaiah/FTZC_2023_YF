@@ -58,7 +58,7 @@ import java.util.Locale;
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
 @TeleOp(name = "Sensor: BNO055 IMU", group = "Sensor")
-@Disabled   // Comment this out to add to the opmode list
+//@Disabled   // Comment this out to add to the opmode list
 public class SensorBNO055IMU extends LinearOpMode
     {
     //----------------------------------------------------------------------------------------------
@@ -95,6 +95,9 @@ public class SensorBNO055IMU extends LinearOpMode
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        gravity  = imu.getGravity();
+
         // Set up our telemetry dashboard
         composeTelemetry();
 
@@ -106,6 +109,10 @@ public class SensorBNO055IMU extends LinearOpMode
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
+
+            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+            telemetry.addData("angle", angles.firstAngle+"jjjj"+ angles.secondAngle);
             telemetry.update();
         }
     }
