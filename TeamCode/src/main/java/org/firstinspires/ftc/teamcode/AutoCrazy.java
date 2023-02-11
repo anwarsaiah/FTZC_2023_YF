@@ -61,83 +61,82 @@ public class AutoCrazy extends LinearOpMode {
         boolean simulateGamepd1_a = false;
         boolean simulateGamepd1_y = false;
 
+        boolean reachedFarCone =false, bingo = false;
         waitForStart();
         playTime.reset();
 
         while(opModeIsActive()) {
 
-//            if(playTime.seconds()<4.7){
-//                robot.wrist.setPosition(0.1);
-//                driveStraight(-2150, 2);
-//                turnToAngle(103,1.2);
-//                driveSlide(-360,1.5);
-//            }
+            if(playTime.seconds()<4.2){
+                robot.wrist.setPosition(0.8);
+                driveStraight(-2150, 2);
+                turnToAngle(103,1.2);
+                driveSlide(-360,1);
+            }
 
-            coneHeight = 0.335;
 
-            if(playTime.seconds()>4 && playTime.seconds()<4.1)
+
+            if(playTime.seconds()>4.5 && playTime.seconds()< 4.6 )
                 simulateGamepd1_y = true;
-            if(playTime.seconds()>4.3 && playTime.seconds()<4.4)
-                simulateGamepd1_y = false;
+            if(playTime.seconds()>4.7 && playTime.seconds()< 4.8 )
+            { simulateGamepd1_y = false; coneHeight =0.338;}
 
-            if(playTime.seconds()>5.1 && playTime.seconds()<6.1)  //#1
+            if(playTime.seconds()>5.7 && playTime.seconds()< 5.8 )  //#1
                 simulateGamepd1_a = true;
-            if(playTime.seconds()>5.3&& playTime.seconds()<6.4)
+            if(playTime.seconds()>5.8 && playTime.seconds()< 5.9 )
                 simulateGamepd1_a = false;
 
-            if(playTime.seconds()>7.5 && playTime.seconds()<7.6)
+            if(playTime.seconds()>8.8 && playTime.seconds()< 8.9 )
                 simulateGamepd1_y = true;
-            if(playTime.seconds()>7.2&& playTime.seconds()<7.3)
-                simulateGamepd1_y = false;
-            coneHeight = 0.335;
-            if(playTime.seconds()>9&& playTime.seconds()<9.1)  //#2
+            if(playTime.seconds()>8.9 && playTime.seconds()< 9 )
+            { simulateGamepd1_y = false;
+            coneHeight = 0.32;}
+            if(playTime.seconds()> 10 && playTime.seconds()< 10.1 )  //#2
                 simulateGamepd1_a = true;
-            if(playTime.seconds()>9.3&& playTime.seconds()<9.4)
+            if(playTime.seconds()> 10.1 && playTime.seconds()< 10.2 )
                 simulateGamepd1_a = false;
 
-            if(playTime.seconds()>12.6 && playTime.seconds()<12.7)
+            if(playTime.seconds()>13.1 && playTime.seconds()<13.2 )
                 simulateGamepd1_y = true;
-            if(playTime.seconds()>12.9&& playTime.seconds()<13)
+            if(playTime.seconds()>13.2 && playTime.seconds()<13.3 )
             {simulateGamepd1_y = false;
-            coneHeight = 0.325;}
-            if(playTime.seconds()>16.9&& playTime.seconds()<17)  ///#3
+            coneHeight = 0.3;}
+            if(playTime.seconds()>14.1 && playTime.seconds()<14.2 )  ///#3
                 simulateGamepd1_a = true;
-            if(playTime.seconds()>17.3&& playTime.seconds()<17.4)
-            {simulateGamepd1_a = false;coneHeight = 0.29;}
+            if(playTime.seconds()>14.2 && playTime.seconds()<14.3 )
+            {simulateGamepd1_a = false;}
 
-            if(playTime.seconds()>20.3 && playTime.seconds()<20.4)
+            if(playTime.seconds()>17.2 && playTime.seconds()<17.3 )
                 simulateGamepd1_y = true;
-            if(playTime.seconds()>20.6&& playTime.seconds()<20.7)
+            if(playTime.seconds()>17.3 && playTime.seconds()<17.4 )
             {  simulateGamepd1_y = false;
-            coneHeight = 0.21;}
-            if(playTime.seconds()>22.3&& playTime.seconds()<22.4)//#4
+            coneHeight = 0.24;}
+            if(playTime.seconds()>18.2 && playTime.seconds()< 18.9 )//#4
                 simulateGamepd1_a = true;
-            if(playTime.seconds()>22.6&& playTime.seconds()<22.7)
-            {simulateGamepd1_a = false;coneHeight = 0.28;}
+            if(playTime.seconds()>18.9 && playTime.seconds()< 19 )
+            {simulateGamepd1_a = false;}
 
-            if(playTime.seconds()>25.6 && playTime.seconds()<25.7)
+            if(playTime.seconds()>21.3 && playTime.seconds()<21.4 )
                 simulateGamepd1_y = true;
-            if(playTime.seconds()>25.9&& playTime.seconds()<26)
-            {  simulateGamepd1_y = false;
-                coneHeight = 0.2;}
-            if(playTime.seconds()>27.9&& playTime.seconds()<28) //#5
+            if(playTime.seconds()>21.4 && playTime.seconds()< 21.5 )
+            {  simulateGamepd1_y = false;coneHeight = 0.2;}
+            if(playTime.seconds()>22.3 && playTime.seconds()<22.4 ) //#5
                 simulateGamepd1_a = true;
-            if(playTime.seconds()>29&& playTime.seconds()<29.1)
-            {simulateGamepd1_a = false;coneHeight = 0.25;}
+            if(playTime.seconds()>22.4 && playTime.seconds()< 22.5)
+            {simulateGamepd1_a = false;}
 
-//            if(playTime.seconds()>20.3 && playTime.seconds()<20.4)
-//                simulateGamepd1_y = true;
-//            if(playTime.seconds()>20.6&& playTime.seconds()<20.7)
-//            {  simulateGamepd1_y = false;
-//                coneHeight = 0.31;}
+            if(playTime.seconds()>25.4 && playTime.seconds()< 25.5 )
+                simulateGamepd1_y = true;
+            if(playTime.seconds()>25.5 && playTime.seconds()< 25.6 )
+            {  simulateGamepd1_y = false;}
 //            if(playTime.seconds()>22.3&& playTime.seconds()<22.4)
 //                simulateGamepd1_a = true;
 //            if(playTime.seconds()>22.6&& playTime.seconds()<22.7)
 //                simulateGamepd1_a = false;
 
-            robot.elevator2.setPower(robot.elevator.getPower());
 
-            if(gamepad1.x && xPressedTimeout.seconds()>0.75){
+
+            /*if(gamepad1.x && xPressedTimeout.seconds()>0.75){
                 //robot.cone.setPosition(robot.cone.getPosition() == 0.85 ? 0.2 : 0.85);
                 if(Math.abs(robot.cone.getPosition()- 0.85)<0.01)
                     robot.cone.setPosition(0.04);
@@ -145,7 +144,7 @@ public class AutoCrazy extends LinearOpMode {
                     robot.cone.setPosition(0.85);
 
                 xPressedTimeout.reset();
-            }
+            }*/
             if(simulateGamepd1_a && !gamePad_a)
             {
                 gamePad_a = true;
@@ -155,9 +154,13 @@ public class AutoCrazy extends LinearOpMode {
             {
                 takeCone();
             }
+            /////////////////////////////////////////////////
+            int TARGET_ELEVATOR_ARM = 1000;
+            robot.elevator2.setPower(robot.elevator.getPower());
+  /*
             robot.driveMecanum();
             distances();
-            int TARGET_ELEVATOR = 1460, TARGET_ELEVATOR_ARM = 900;
+
 
             if(gamepad1.b && bPressedTimeout.seconds()>1){
                 robot.elevator.setTargetPosition(TARGET_ELEVATOR);//-1850
@@ -196,43 +199,48 @@ public class AutoCrazy extends LinearOpMode {
                 }
             }
             ///////////////////////////////////////////
-
-            if(simulateGamepd1_y && yPressedTimeout.seconds()>0.4){
+*/
+            if(simulateGamepd1_y && yPressedTimeout.seconds()>0.4)
+            {
                 robot.cone.setPosition(0.2);
                 robot.claw.setPosition(0);//close grip
                 robot.claw2.setPosition(1);
                 robot.elevator.setTargetPosition(TARGET_ELEVATOR_ARM);//elevator position for arm stretch.
                 robot.elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.elevator.setPower(1);
+                bingo = false;
 
                 yPressedTimeout.reset();
             }/////  heeeeeeeeeeerrrrrrrrrrreeeeeeeeeeeeeeeeeee
-            if(robot.elevator.getCurrentPosition()>TARGET_ELEVATOR_ARM-300 && robot.elevator.getTargetPosition() == TARGET_ELEVATOR_ARM && yPressedTimeout.seconds()<1.5){
+            if(robot.elevator.getCurrentPosition()>TARGET_ELEVATOR_ARM-300 && robot.elevator.getTargetPosition() == TARGET_ELEVATOR_ARM && !reachedFarCone && !bingo){//&& yPressedTimeout.seconds()<1.5
                 robot.arm.setTargetPosition(-880);
                 robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.arm.setPower(1);
+                robot.arm.setPower(0.8);
             }
             if(robot.arm.getCurrentPosition()<-150 && robot.arm.getCurrentPosition()>-730 && robot.arm.getTargetPosition() == -880)
                 robot.cone.setPosition(1);
             //  else if(robot.arm.getCurrentPosition()<-730 && robot.arm.getTargetPosition() == -761)
-            if(robot.arm.getCurrentPosition()<-766 && robot.arm.getTargetPosition() == -880)
+            if(robot.arm.getCurrentPosition()<-766 && robot.arm.getTargetPosition() == -880 && robot.elevator.getCurrentPosition()>TARGET_ELEVATOR_ARM-100)
             {
                 robot.cone.setPosition(0.2);
                 robot.arm.setTargetPosition(0);
+                reachedFarCone = true;
+                bingo =true;
             }
-            if(robot.elevator.getTargetPosition() == TARGET_ELEVATOR_ARM && robot.arm.getTargetPosition() == 0 && robot.arm.getCurrentPosition()>-60 && yPressedTimeout.seconds()>1.5)
+            if(robot.elevator.getTargetPosition() == TARGET_ELEVATOR_ARM && robot.arm.getTargetPosition() == 0 && robot.arm.getCurrentPosition()>-60 && bingo)//&& yPressedTimeout.seconds()>1.5)
             {
                 robot.elevator.setPower(0);
 
                 //robot.cone.getController().pwmDisable();
                 robot.cone.setPosition(0.04);
-                if(robot.elevator.getCurrentPosition()>-10)
+                if(robot.elevator.getCurrentPosition()<200)
                 {
                     robot.elevator.setTargetPosition(0);
                     robot.elevator.setPower(0);
 
                     robot.arm.setPower(0);
                     yPressedTimeout.reset();
+                    reachedFarCone = false;
                 }
             }
 
@@ -243,64 +251,17 @@ public class AutoCrazy extends LinearOpMode {
         }//opModeIsActive()
 
     }//runOpMode()
-    public void distances(){
 
-        //////    Square    ////////
-        if(gamepad1.right_bumper && rightBumper2PressedTimeout.seconds()>0.75){
-            armDistanceStretch = !armDistanceStretch;
-            rightBumper2PressedTimeout.reset();
-        }
-        if(armDistanceStretch){
-            if(Math.abs(robot.cone.getPosition()- 0.85)>0.01)
-                robot.cone.setPosition(0.25);
-            robot.arm.setTargetPosition(-125);
-            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.arm.setPower(0.7);
-        }
-        if(!armDistanceStretch && rightBumper2PressedTimeout.seconds()<1)
-        {
-            //robot.cone.getController().pwmDisable();
-
-            robot.arm.setTargetPosition(0);
-            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.arm.setPower(0.7);
-            if(rightBumper2PressedTimeout.seconds()>0.8)
-                robot.cone.setPosition(0.04);
-        }
-
-        //////    Y    ////////
-
-        if(gamepad2.y && yPressedTimeout2.seconds()>0.75){ //score far cone
-            if(armLongDistanceStretch)
-            {
-                robot.arm.setTargetPosition(0);
-                robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.arm.setPower(0.7);
-            }
-            armLongDistanceStretch = !armLongDistanceStretch;
-            yPressedTimeout2.reset();
-        }
-        if(armLongDistanceStretch){
-            robot.cone.setPosition(0.1);
-            // sleep(50);
-            robot.arm.setTargetPosition(-460);
-            robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.arm.setPower(0.7);
-        }
-        if(!armLongDistanceStretch && yPressedTimeout2.seconds()<2)
-        {
-            robot.cone.setPosition(0.04);
-        }
-    }
 
     public void takeCone(){
-        if(robot.elevator.getCurrentPosition()<50 && robot.elevator.getTargetPosition() == 0)
+        if(robot.elevator.getCurrentPosition()<50 && robot.elevator.getTargetPosition() == 0 && robot.arm.getTargetPosition() != 0)
         {
             robot.arm.setTargetPosition(0);
             robot.arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.arm.setPower(1);
         }
-        if(aPressedTimeout.seconds()<0.85) {
+        if(aPressedTimeout.seconds()<0.85)
+        {
             robot.intake1.setPosition(coneHeight);
             robot.intake2.setPosition(1-coneHeight);   //intake down
 
@@ -308,6 +269,7 @@ public class AutoCrazy extends LinearOpMode {
             {
                 robot.claw.setPosition(0.5);//open
                 robot.claw2.setPosition(0.5);//start action with open claws
+                //robot.wrist.setPosition(0 );
             }
         }
         if(aPressedTimeout.seconds()>0.75 && aPressedTimeout.seconds() < 2)   //0.65->0.75
@@ -324,8 +286,7 @@ public class AutoCrazy extends LinearOpMode {
             }
 
         }
-
-        if(aPressedTimeout.seconds()>1.75)
+        if(aPressedTimeout.seconds()>1.85) // 1.75 -> 1.85
         {
             robot.intake1.setPosition(0.9);   //intake up
             robot.intake2.setPosition(0.1);
@@ -345,15 +306,15 @@ public class AutoCrazy extends LinearOpMode {
                 robot.wrist.setPosition(1);  //drop position
             }
         }
-        if(aPressedTimeout.seconds()>2.88 && aPressedTimeout.seconds()<3.1)
+        if(aPressedTimeout.seconds()>2.78 && aPressedTimeout.seconds()<3.1) //2.88->2.78
         {  //2.99->2.88
             robot.claw.setPosition(0.5);   //open claw
             robot.claw2.setPosition(0.5);
         }
         //sleep(1000);//1000
-        if(aPressedTimeout.seconds()>3.1 && aPressedTimeout.seconds()<3.205) {
+        if(aPressedTimeout.seconds()>2.95 && aPressedTimeout.seconds()<3.205) {
             //open to drop cone
-            robot.wrist.setPosition(0.83);
+            robot.wrist.setPosition(0.78);
         }
         if(aPressedTimeout.seconds()>3.16)
         {
@@ -368,10 +329,6 @@ public class AutoCrazy extends LinearOpMode {
     ////////////////////////////////////////////////////////////////////////////////
     public void driveStraight(int distance, double timeout) {
         double power = 0.8;
-
-
-
-
         /////////////////    Reset Encoders     ////////////////////////
         robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -405,9 +362,6 @@ public class AutoCrazy extends LinearOpMode {
     }
     public void driveSlide(int distance, double timeout) {
         double power = 0.8;
-
-
-
 
         /////////////////    Reset Encoders     ////////////////////////
         robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
