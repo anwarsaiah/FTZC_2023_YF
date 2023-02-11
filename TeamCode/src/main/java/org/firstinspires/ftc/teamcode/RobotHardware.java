@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -84,13 +85,12 @@ public class RobotHardware {
     public Servo   reach2 = null;
     public Servo   reach3 = null;
     public Servo   reach4 = null;
-
-
-
+    private ElapsedTime initTime = new ElapsedTime();
     // Define a constructor that allows the OpMode to pass a reference to itself.
     public RobotHardware(LinearOpMode opmode) {
         myOpMode = opmode;
     }
+
 
     /**
      * Initialize all the robot's hardware.
@@ -99,16 +99,13 @@ public class RobotHardware {
      * All of the hardware devices are accessed via the hardware map, and initialized.
      */
     public void init()    {
-        // Define and Initialize Motors (note: need to use reference to actual OpMode).
-//        leftDrive  = myOpMode.hardwareMap.get(DcMotor.class, "left_drive");
-//        rightDrive = myOpMode.hardwareMap.get(DcMotor.class, "right_drive");
-//        armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "arm");
 
         double left;
         double right;
         double drive;
         double turn;
         double max;
+
 
         // Define and Initialize Motors
 
@@ -126,7 +123,7 @@ public class RobotHardware {
 
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
         claw = myOpMode.hardwareMap.get(Servo.class, "claw");
-        cone = myOpMode.hardwareMap.get(Servo.class, "cone");
+        cone = myOpMode.hardwareMap.get(Servo.class, "cone ");//cone
         claw2 = myOpMode.hardwareMap.get(Servo.class, "claw2");
         intake1 = myOpMode.hardwareMap.get(Servo.class,"intake1");
         intake2 = myOpMode.hardwareMap.get(Servo.class,"intake2");
@@ -142,6 +139,8 @@ public class RobotHardware {
 
         elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         elevator2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        elevator2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -149,17 +148,41 @@ public class RobotHardware {
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ////start robot with claw open
+
+        intake1.setPosition(0.9);
+        intake2.setPosition(0.1);
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
         myOpMode.telemetry.update();
     }
     public void driveMecanum(){
+
+if(backLeft.getPower()!=0 || backRight.getPower() != 0 || frontRight.getPower() != 0 || frontLeft.getPower() != 0)
+{
+    reach1.setPosition(0.1); //close reach
+    reach2.setPosition(0.9);
+    reach3.setPosition(0.1);
+    reach4.setPosition(0.9);
+
+    arm.setTargetPosition(0);
+    arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    arm.setPower(0.45);
+
+    intake1.setPosition(0.9);
+    intake2.setPosition(0.1);
+}
+        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         ///////drive wheels..Mecanum
         double max;
 
         // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
         double axial   = -myOpMode.gamepad2.left_stick_y;  // Note: pushing stick forward gives negative value
-        double lateral =  myOpMode.gamepad2.left_stick_x;
+        double lateral =  myOpMode.gamepad2.right_trigger-myOpMode.gamepad2.left_trigger;//myOpMode.gamepad2.left_stick_x;
         double yaw     =  myOpMode.gamepad2.right_stick_x;
 
         // Combine the joystick requests for each axis-motion to determine each wheel's power.
